@@ -49,7 +49,7 @@ The API project gives a player a durable, queryable record of characters' progre
 
 Each phase maps to one core view/capability, consuming a corresponding phase of the API.
 
-### Phase F0 — Foundation
+### Phase F0 — Foundation (Done)
 
 Vue Router setup, Pinia stores skeleton, Tailwind config, responsive app shell/layout, API client module.
 
