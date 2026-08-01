@@ -5,14 +5,35 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:check": "npm run build && npm run type-check && npm run lint && npm test",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "type-check": "vue-tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint . --fix",
+    "format": "prettier --write src/ tests/"
   },
   "dependencies": {
-    "vue": "^3.5.40"
+    "pinia": "^4.0.2",
+    "vue": "^3.5.40",
+    "vue-router": "^5.2.0"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@tailwindcss/vite": "^4.3.3",
     "@vitejs/plugin-vue": "^6.0.8",
-    "vite": "^8.2.0"
+    "@vue/eslint-config-prettier": "^10.2.0",
+    "@vue/eslint-config-typescript": "^14.9.0",
+    "@vue/test-utils": "^2.4.11",
+    "eslint": "^10.8.0",
+    "eslint-plugin-vue": "^10.10.0",
+    "jsdom": "^29.1.1",
+    "prettier": "^3.9.6",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.9.3",
+    "vite": "^8.2.0",
+    "vitest": "^4.1.10",
+    "vue-tsc": "^3.3.9"
   }
 }
