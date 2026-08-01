@@ -1,3 +1,5 @@
+import { useSessionStore } from "../../src/stores/session.store"
+
 export class ApiError extends Error {
     status: number
     body: unknown
@@ -10,7 +12,17 @@ export class ApiError extends Error {
     }
 }
 
-const baseUrl = import.meta.env.VITE_API_BASE_URL
+export const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
+
+let onUnauthorized: (() => void) | undefined
+
+export function setUnauthorizedHandler(handler: () => void): void {
+    onUnauthorized = handler
+}
+
+function isNeedsReauthBody(body: unknown): body is { error: "needs_reauth" } {
+    return typeof body === "object" && body !== null && (body as { error?: unknown }).error === "needs_reauth"
+}
 
 async function parseBody(response: Response): Promise<unknown> {
     const contentType = response.headers.get("content-type") ?? ""
@@ -24,7 +36,7 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
     let response: Response
 
     try {
-        response = await fetch(`${baseUrl}${path}`, {
+        response = await fetch(`${apiBaseUrl}${path}`, {
             ...init,
             credentials: "include",
             headers: {
@@ -37,14 +49,26 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
     }
 
     if (!response.ok) {
-        throw new ApiError(response.status, await parseBody(response))
+        const body = await parseBody(response)
+
+        if (response.status === 401) {
+            const sessionStore = useSessionStore()
+            if (isNeedsReauthBody(body)) {
+                sessionStore.flagNeedsReauth()
+            } else {
+                sessionStore.markLoggedOut()
+                onUnauthorized?.()
+            }
+        }
+
+        throw new ApiError(response.status, body)
     }
 
-     if (response.status === 204) {
+    if (response.status === 204) {
         return undefined as T
     }
 
-     return (await parseBody(response)) as T
+    return (await parseBody(response)) as T
 }
 
 export const apiClient = {
