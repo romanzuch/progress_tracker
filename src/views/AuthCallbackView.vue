@@ -7,8 +7,8 @@ const router = useRouter()
 const sessionStore = useSessionStore()
 
 onMounted(() => {
-    sessionStore.markAuthenticated()
-    router.replace({ name: "home" })
+  sessionStore.markAuthenticated()
+  router.replace({ name: "home" })
 })
 </script>
 
