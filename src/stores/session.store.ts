@@ -1,10 +1,29 @@
-import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { defineStore } from "pinia"
+import { ref } from "vue"
 
-// F1 fills this in with real login/logout state; today it only exists so
-// later phases (and the app shell's nav) have a store to import.
-export const useSessionStore = defineStore('session', () => {
+export const useSessionStore = defineStore("session", () => {
   const isAuthenticated = ref(false)
+  const needsReauth = ref(false)
 
-  return { isAuthenticated }
+  function markAuthenticated() {
+    isAuthenticated.value = true
+    needsReauth.value = false
+  }
+
+  function markLoggedOut() {
+    isAuthenticated.value = false
+    needsReauth.value = false
+  }
+
+  function flagNeedsReauth() {
+    needsReauth.value = true
+  }
+
+  return {
+    isAuthenticated,
+    needsReauth,
+    markAuthenticated,
+    markLoggedOut,
+    flagNeedsReauth,
+  }
 })
