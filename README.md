@@ -26,4 +26,4 @@ cp .env.example .env
 
 ## Status
 
-Phase F0 (foundation: router, Pinia, Tailwind, API client, tooling) is complete. See `PRD.md`'s Roadmap for what's next.
+Phase F0 (foundation) and Phase F1 (auth & session: login/logout, session store, API client 401 interceptor, needs_reauth banner plumbing) are complete. Full end-to-end login is still blocked on an API-side change — see `PRD.md`'s Architecture section. See `PRD.md`'s Roadmap for what's next.

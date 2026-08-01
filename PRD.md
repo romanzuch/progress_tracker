@@ -53,7 +53,7 @@ Each phase maps to one core view/capability, consuming a corresponding phase of 
 
 Vue Router setup, Pinia stores skeleton, Tailwind config, responsive app shell/layout, API client module.
 
-### Phase F1 — Auth & session
+### Phase F1 — Auth & session (Done)
 
 - Login page/button that navigates the browser to `GET /api/auth/battlenet` (full redirect, not an XHR — this is a Battle.net consent-screen flow).
 - After Battle.net redirects back through the API's callback, the API redirects to a frontend route (see Architecture note above); that route just lands the user in the app — the session cookie is already set by then.
